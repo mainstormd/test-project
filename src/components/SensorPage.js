@@ -77,10 +77,12 @@ function SensorPage({rows, switchClick})
                     <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} onChange={() => {switchClick(sensorId)}} checked={sensor.condition==="Вкл" ? true : false} />}  label={<Typography style={styleText} variant="body">{sensor.condition}</Typography>} labelPlacement="start"/>
                 </ListItem>
                 }
+                { !isDataSensorExpand ? "" :
                 <ListItem divider style={{height:"51px"}}  >
                         <ListItemText style={styleText} primary={<Typography variant="body" style={ { color:"#F8BC3A" } }>{sensor.deviceNumber}</Typography>}
                                                         secondary={<Typography variant="body"> {sensor.deviceName}</Typography>} />
                 </ListItem>
+                }       
                 <ListItem divider style={{padding:0}} onClick={StateSensorExpandOnClick}>
                     <ListItemButton style={{paddingTop:3,paddingBottom:"3px"}} >
                     <ListItemText primary={<Typography style={styleTextBold} component="div">Показатели датчика</Typography>} />
