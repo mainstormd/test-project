@@ -60,19 +60,8 @@ let styleCell = {
     borderBottom: "none"
 }
 
-function createData(id, deviceNumber, deviceName, condition , valueSensor) {
-    return { id, deviceNumber, deviceName, condition , valueSensor };
-}
-  
-const rows = [
-    createData('123456', "12345678", "SW1", "Вкл", "+70°C"),
-    createData('987348', "12345678", "SW1", "Вкл", "+70°C"),
-    createData('534256', "12345678", "SW1", "Выкл", "+70°C"),
-    createData('782364', "12345678", "SW1", "Вкл", "+70°C"),
-    createData('324235', "12345678", "SW1", "Вкл", "+70°C"),
-];
 
-function SensorsView(props)
+function SensorsView( {rows, addSensor,rowClick} )
 {
     return(
     <div style={sensorsViewStyle}>
@@ -86,7 +75,7 @@ function SensorsView(props)
           <ListItem divider style={{padding:0}}>
           <Table style={{tableLayout: "fixed"}} >
             <TableBody>
-              <TableRow key="1">
+              <TableRow key="1"  >
                 <TableCell style={stylesHeader} align="left">ID</TableCell>
                 <TableCell style={stylesHeader} align="left">Устройство</TableCell>
                 <TableCell style={stylesHeader} align="left">Состояние</TableCell>
@@ -96,13 +85,13 @@ function SensorsView(props)
           </Table>
           </ListItem >
           <ListItem divider>
-            <Button style={{textTransform: 'none', color:"#F8BC3A",fontWeight: 500,fontSize: "14px",lineHeight: "120%"}} startIcon={<AddCircleIcon style={styleAddIcon}/>}>Добавить датчик</Button>
+            <Button style={{textTransform: 'none', color:"#F8BC3A",fontWeight: 500,fontSize: "14px",lineHeight: "120%"}} onClick={addSensor} startIcon={<AddCircleIcon style={styleAddIcon}/>}>Добавить датчик</Button>
           </ListItem>
         </List>
         <Table style={{tableLayout: "fixed"}}>
           <TableBody>
             {rows.map((row) => (
-                  <TableRow hover key={row.id} >
+                  <TableRow hover key={row.id} onClick={() => rowClick(row.id)} style={row.isHighlighted ? {backgroundColor:"#F8F8F8"}: {} }>
                     <TableCell style={styleCell}  align="left">{row.id}</TableCell>
                     <TableCell style={styleCell}  align="left"> 
                         <div style={{color:"#F8BC3A"}}>{row.deviceNumber}</div> {row.deviceName}</TableCell>

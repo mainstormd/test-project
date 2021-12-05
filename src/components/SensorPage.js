@@ -47,7 +47,7 @@ const CustomizedSwitch = styled(Switch)`
     }
 `;
 
-function SensorPage(props)
+function SensorPage({rows})
 {
     let { sensorId } = useParams();
 
