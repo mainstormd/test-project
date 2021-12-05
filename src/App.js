@@ -35,8 +35,7 @@ function App() {
 
   let addRowOnClick = ( event )=>{
     let result = [...rows];
-    result.push(createData(getRandomNumber()+"", getRandomNumber()+"", "SW1", "Вкл", "+70°C",false));
-    debugger;
+    result.push(createData(getRandomNumber()+"", getRandomNumber()+"", "SW1", "Вкл", "+70°C",false));    
     setRows(result);
   };
 
@@ -54,6 +53,21 @@ function App() {
     setRows(result);
   };
 
+  let switchClick = (sensorId) => {
+   
+    let result = rows.map( item => {  
+      if(item.id === sensorId ) 
+      {
+        if(item.condition === "Вкл")
+          item.condition = "Выкл";
+        else
+          item.condition = "Вкл";
+      }
+        return  item; 
+    });
+    setRows(result);
+  }
+
   return (
       <Router>
         <div style={fontList}>  
@@ -64,7 +78,7 @@ function App() {
             <Route exact path="/sensors/:sensorId" element={
               <div>
                 <SensorsView rows={rows} addSensor={addRowOnClick} rowClick={rowClick}/>
-                <SensorPage rows={rows}/>
+                <SensorPage rows={rows} switchClick={switchClick}/>
               </div>
             }/>
           </Routes>

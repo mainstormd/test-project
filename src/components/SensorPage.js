@@ -47,7 +47,7 @@ const CustomizedSwitch = styled(Switch)`
     }
 `;
 
-function SensorPage({rows})
+function SensorPage({rows, switchClick})
 {
     let { sensorId } = useParams();
     let sensor = rows.find( (item ) => item.id === sensorId);
@@ -63,7 +63,7 @@ function SensorPage({rows})
                 </ListItem>
                 <ListItem divider style={{height:"51px"}}> 
                     <ListItemText primary={<Typography style={styleText} component="div">Состояние</Typography>} />
-                <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} checked={sensor.condition==="Вкл" ? true : false} />}  label={<Typography style={styleText} variant="body">{sensor.condition}</Typography>} labelPlacement="start"/>
+                <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} onChange={() => {switchClick(sensorId)}} checked={sensor.condition==="Вкл" ? true : false} />}  label={<Typography style={styleText} variant="body">{sensor.condition}</Typography>} labelPlacement="start"/>
                 </ListItem>
                 <ListItem divider style={{height:"51px"}}>
                         <ListItemText style={styleText} primary={<Typography variant="body" style={ { color:"#F8BC3A" } }>{sensor.deviceNumber}</Typography>}
