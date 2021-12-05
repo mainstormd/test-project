@@ -16,10 +16,10 @@ function createData(id, deviceNumber, deviceName, condition , valueSensor, isHig
 
 const intialzedRows = [
   createData('123456', "12345678", "SW1", "Вкл", "+70°C", false),
-  createData('987348', "12345678", "SW1", "Вкл", "+70°C", false),
-  createData('534256', "12345678", "SW1", "Выкл", "+70°C", false),
-  createData('782364', "12345678", "SW1", "Вкл", "+70°C", false),
-  createData('324235', "12345678", "SW1", "Вкл", "+70°C", false),
+  createData('987348', "12345678", "SW1", "Вкл", "+40°C", false),
+  createData('534256', "12345678", "SW1", "Выкл", "+50°C", false),
+  createData('782364', "12345678", "SW1", "Вкл", "+30°C", false),
+  createData('324235', "12345678", "SW1", "Вкл", "+10°C", false),
 ];
 
 function getRandomNumber(){  
@@ -35,12 +35,13 @@ function App() {
 
   let addRowOnClick = ( event )=>{
     let result = [...rows];
-    result.push(createData(getRandomNumber(), getRandomNumber(), "SW1", "Вкл", "+70°C"),false);
+    result.push(createData(getRandomNumber()+"", getRandomNumber()+"", "SW1", "Вкл", "+70°C",false));
+    debugger;
     setRows(result);
   };
 
   let rowClick = (rowId,event) => {
-    //navigate(`/sensors/${rowId}`);
+    
     let result = rows.map( item => {  
         if(item.id === rowId ) 
           item.isHighlighted = true;

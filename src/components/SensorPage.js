@@ -50,7 +50,8 @@ const CustomizedSwitch = styled(Switch)`
 function SensorPage({rows})
 {
     let { sensorId } = useParams();
-
+    let sensor = rows.find( (item ) => item.id === sensorId);
+    
     return (
         <div style={sensorView}>
             <List style={{padding:0}}>       
@@ -60,13 +61,13 @@ function SensorPage({rows})
                     { /*open ? <ExpandLess /> : */ <ExpandMore style={{color:"#707070"}} />}
                     </ListItemButton>
                 </ListItem>
-                <ListItem divider style={{height:"51px"}}>
+                <ListItem divider style={{height:"51px"}}> 
                     <ListItemText primary={<Typography style={styleText} component="div">Состояние</Typography>} />
-                <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} defaultChecked />}  label={<Typography style={styleText} variant="body">Вкл</Typography>} labelPlacement="start"/>
+                <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} checked={sensor.condition==="Вкл" ? true : false} />}  label={<Typography style={styleText} variant="body">{sensor.condition}</Typography>} labelPlacement="start"/>
                 </ListItem>
                 <ListItem divider style={{height:"51px"}}>
-                        <ListItemText style={styleText} primary={<Typography variant="body" style={ { color:"#F8BC3A" } }>123456</Typography>}
-                                                        secondary={<Typography variant="body"> SW1</Typography>} />
+                        <ListItemText style={styleText} primary={<Typography variant="body" style={ { color:"#F8BC3A" } }>{sensor.deviceNumber}</Typography>}
+                                                        secondary={<Typography variant="body"> {sensor.deviceName}</Typography>} />
                 </ListItem>
                 <ListItem divider style={{padding:0}}>
                     <ListItemButton style={{paddingTop:3,paddingBottom:"3px"}} >
@@ -76,7 +77,7 @@ function SensorPage({rows})
                 </ListItem>
                 <ListItem style={{flexDirection:"column"}} divider>
                     <ListItemText style={styleItemListOfSensorValue} primary={<Typography style={styleTextBold} component="div">Текущее значение</Typography>}
-                                                                    secondary={<Typography style={styleTextBold} component="div">+10 °C</Typography>} />
+                                                                    secondary={<Typography style={styleTextBold} component="div">{sensor.valueSensor}</Typography>} />
                     
                     <ListItemText style={styleItemListOfSensorValue} primary={<Typography style={styleText} component="div">Диапазон</Typography>}
                                                                     secondary={<Typography style={styleText} component="div">от -10 до +30 °C</Typography>} />
