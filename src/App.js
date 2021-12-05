@@ -39,7 +39,7 @@ function App() {
     setRows(result);
   };
 
-  let rowClick = (  rowId,event ) => {
+  let rowClick = (rowId,event) => {
     //navigate(`/sensors/${rowId}`);
     let result = rows.map( item => {  
         if(item.id === rowId ) 

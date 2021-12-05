@@ -7,7 +7,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-
+import {useNavigate } from "react-router-dom"
 
 let styleLabel = {
     width: "258px",
@@ -63,6 +63,13 @@ let styleCell = {
 
 function SensorsView( {rows, addSensor,rowClick} )
 {
+  let navigate = useNavigate();
+
+  let tableRowClick = ( rowId ) => {
+    rowClick(rowId);
+    navigate(`/sensors/${rowId}`);
+  };
+
     return(
     <div style={sensorsViewStyle}>
         <List style={{padding:0}}>
@@ -91,7 +98,7 @@ function SensorsView( {rows, addSensor,rowClick} )
         <Table style={{tableLayout: "fixed"}}>
           <TableBody>
             {rows.map((row) => (
-                  <TableRow hover key={row.id} onClick={() => rowClick(row.id)} style={row.isHighlighted ? {backgroundColor:"#F8F8F8"}: {} }>
+                  <TableRow hover key={row.id} onClick={() => tableRowClick(row.id)} style={row.isHighlighted ? {backgroundColor:"#F8F8F8"}: {} }>
                     <TableCell style={styleCell}  align="left">{row.id}</TableCell>
                     <TableCell style={styleCell}  align="left"> 
                         <div style={{color:"#F8BC3A"}}>{row.deviceNumber}</div> {row.deviceName}</TableCell>
