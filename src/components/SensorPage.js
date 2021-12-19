@@ -74,7 +74,7 @@ function SensorPage({rows, switchClick})
                 { !isDataSensorExpand ? "" :
                 <ListItem divider style={{height:"51px"}} > 
                     <ListItemText primary={<Typography style={styleText} component="div">Состояние</Typography>} />
-                    <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} onChange={() => {switchClick(sensorId)}} checked={sensor.condition==="Вкл" ? true : false} />}  label={<Typography style={styleText} variant="body">{sensor.condition}</Typography>} labelPlacement="start"/>
+                    <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} onChange={() => {switchClick(sensorId)}} checked={sensor.condition} />}  label={<Typography style={styleText} variant="body">{sensor.condition === true ? "Вкл" : "Выкл"}</Typography>} labelPlacement="start"/>
                 </ListItem>
                 }
                 { !isDataSensorExpand ? "" :
@@ -92,7 +92,7 @@ function SensorPage({rows, switchClick})
                 { !isStateSensorExpand ? "" :
                 <ListItem style={{flexDirection:"column"}} divider>
                     <ListItemText style={styleItemListOfSensorValue} primary={<Typography style={styleTextBold} component="div">Текущее значение</Typography>}
-                                                                    secondary={<Typography style={styleTextBold} component="div">{sensor.valueSensor}</Typography>} />
+                                                                    secondary={<Typography style={styleTextBold} component="div">+{sensor.valueSensor}°C</Typography>} />
                     
                     <ListItemText style={styleItemListOfSensorValue} primary={<Typography style={styleText} component="div">Диапазон</Typography>}
                                                                     secondary={<Typography style={styleText} component="div">от -10 до +30 °C</Typography>} />

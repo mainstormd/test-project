@@ -1,5 +1,5 @@
 import List from '@mui/material/List';
-import { Button,  ListItem } from '@mui/material';
+import { Button,  ListItem, Box } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -8,6 +8,7 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import {useNavigate } from "react-router-dom"
+import { display } from '@mui/system';
 
 let styleLabel = {
     width: "258px",
@@ -45,7 +46,9 @@ let sensorsViewStyle = {
     boxShadow:"0px 3px 6px rgba(0, 0, 0, 0.25)",
     borderRadius: "4px",
     left:"30px",
-    top:"30px"
+    top:"30px",
+    display:"flex", 
+    flexDirection: "column"
 }
 
 let styleCell = {
@@ -95,19 +98,21 @@ function SensorsView( {rows, addSensor,rowClick} )
             <Button style={{textTransform: 'none', color:"#F8BC3A",fontWeight: 500,fontSize: "14px",lineHeight: "120%"}} onClick={addSensor} startIcon={<AddCircleIcon style={styleAddIcon}/>}>Добавить датчик</Button>
           </ListItem>
         </List>
-        <Table style={{tableLayout: "fixed"}}>
-          <TableBody>
-            {rows.map((row) => (
-                  <TableRow hover key={row.id} onClick={() => tableRowClick(row.id)} style={row.isHighlighted ? {backgroundColor:"#F8F8F8"}: {} }>
-                    <TableCell style={styleCell}  align="left">{row.id}</TableCell>
-                    <TableCell style={styleCell}  align="left"> 
-                        <div style={{color:"#F8BC3A"}}>{row.deviceNumber}</div> {row.deviceName}</TableCell>
-                    <TableCell  style={styleCell}  align="left">{row.condition}</TableCell>
-                    <TableCell style={styleCell}  align="left">{row.valueSensor}</TableCell>
-                  </TableRow>
-                ))}
-          </TableBody>
-        </Table>
+        <Box style={{width:"100%", height:"100%", overflow:"auto", alignSelf:"centered" }}>
+          <Table style={{tableLayout: "fixed"}}>
+            <TableBody>
+              {rows.map((row) => (
+                    <TableRow hover key={row.id} onClick={() => tableRowClick(row.id)} style={row.isHighlighted ? {backgroundColor:"#F8F8F8"}: {} }>
+                      <TableCell style={styleCell}  align="left">{row.id}</TableCell>
+                      <TableCell style={styleCell}  align="left"> 
+                          <div style={{color:"#F8BC3A"}}>{row.deviceNumber}</div> {row.deviceName}</TableCell>
+                      <TableCell  style={styleCell}  align="left">{row.condition === true ? "Вкл" : "Выкл"}</TableCell>
+                      <TableCell style={styleCell}  align="left">+{row.valueSensor}°C</TableCell>
+                    </TableRow>
+                  ))}
+            </TableBody>
+          </Table>
+        </Box>
       </div>
     );
 }

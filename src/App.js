@@ -15,11 +15,11 @@ function createData(id, deviceNumber, deviceName, condition , valueSensor, isHig
 }
 
 const intialzedRows = [
-  createData('123456', "12345678", "SW1", "Вкл", "+70°C", false),
-  createData('987348', "12345678", "SW1", "Вкл", "+40°C", false),
-  createData('534256', "12345678", "SW1", "Выкл", "+50°C", false),
-  createData('782364', "12345678", "SW1", "Вкл", "+30°C", false),
-  createData('324235', "12345678", "SW1", "Вкл", "+10°C", false),
+  createData('123456', "12345678", "SW1", true, "70", false),
+  createData('987348', "12345678", "SW1", true, "40", false),
+  createData('534256', "12345678", "SW1", false, "50", false),
+  createData('782364', "12345678", "SW1", true, "30", false),
+  createData('324235', "12345678", "SW1", true, "10", false),
 ];
 
 function getRandomNumber(){  
@@ -35,7 +35,7 @@ function App() {
 
   let addRowOnClick = ( event )=>{
     let result = [...rows];
-    result.push(createData(getRandomNumber()+"", getRandomNumber()+"", "SW1", "Вкл", "+70°C",false));    
+    result.push(createData(getRandomNumber()+"", getRandomNumber()+"", "SW1", "Вкл", "70",false));    
     setRows(result);
   };
 
@@ -58,10 +58,10 @@ function App() {
     let result = rows.map( item => {  
       if(item.id === sensorId ) 
       {
-        if(item.condition === "Вкл")
-          item.condition = "Выкл";
+        if(item.condition === true)
+          item.condition = false;
         else
-          item.condition = "Вкл";
+          item.condition = true;
       }
         return  item; 
     });
