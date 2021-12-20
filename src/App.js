@@ -3,7 +3,7 @@ import SensorsView from './components/SensorsView'
 import SensorPage  from './components/SensorPage'
 import {  BrowserRouter as Router,  Routes,  Route, useNavigate } from "react-router-dom";
 import { useState } from "react"
-
+import { StylesProvider } from '@mui/styles';
 let fontList = {
   width: "1920px",
   height: "1080px",

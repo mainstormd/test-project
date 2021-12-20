@@ -5,41 +5,61 @@ import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useParams } from "react-router-dom";
 import { useState } from "react"
+import { makeStyles } from '@mui/styles';
 
-let sensorView = {  
-    position: "absolute",
-    width: "317px",
-    height: "977px",
-    background: "#FFFFFF",
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-    borderRadius: "4px",
-    left:"719px",
-    top:"30px"
-}
-  
-  
-let styleText = {
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: "12px",
-    lineHeight: "120%"
-}
-  
-let styleTextBold = {
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: "12px",
-    lineHeight: "120%",
-    fontWeight: "600"
-}
-  
-let styleItemListOfSensorValue = {
-    display:"flex",
-    justifyContent:"space-between",
-    width: "100%"
-}
+const useStyles = makeStyles({
+    sensorView : {  
+        position: "absolute",
+        width: "317px",
+        height: "977px",
+        background: "#FFFFFF",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        borderRadius: "4px",
+        left:"719px",
+        top:"30px"
+    },
+      
+    styleText : {
+        "&.MuiTypography-root":{
+            fontFamily: "Montserrat",
+            fontStyle: "normal",
+            fontWeight: "normal",
+            fontSize: "12px",
+            lineHeight: "120%"
+        }
+    },
+    
+    styleSensorText : {
+        "&.MuiTypography-root":{
+            fontFamily: "Montserrat",
+            fontStyle: "normal",
+            fontWeight: "600",
+            fontSize: "20px",
+            lineHeight: "120%",
+            color: "#424242"
+        }
+    },
+    styleTextBold : {
+        "&.MuiTypography-root":{
+        fontFamily: "Montserrat",
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: "12px",
+        lineHeight: "120%",
+        fontWeight: "600"
+        }
+    },
+      
+    styleItemListOfSensorValue : {
+        "&.MuiListItemText-root":{
+            display:"flex",
+            justifyContent:"space-between",
+            width: "100%"
+        }
+    }
+});
+
+
   
 const CustomizedSwitch = styled(Switch)`
     .Mui-checked + .MuiSwitch-track {
@@ -61,44 +81,45 @@ function SensorPage({rows, switchClick})
     let StateSensorExpandOnClick = () =>{
         setStatusStateSensor(!isStateSensorExpand);
     }
+    const classes = useStyles();
 
     return (
-        <div style={sensorView}>
+        <div className={classes.sensorView}>
             <List style={{padding:0}}>       
                 <ListItem divider style={{padding:"0px",paddingBottom:"2px"}} onClick={DataSensorExpandOnClick}>
                     <ListItemButton >
-                    <ListItemText primary={sensorId} />
+                    <ListItemText primary={<Typography className={classes.styleSensorText} component="div">{sensorId}</Typography>} />
                     { isDataSensorExpand ? <ExpandLess style={{color:"#707070"}} /> : <ExpandMore style={{color:"#707070"}} />}
                     </ListItemButton>
                 </ListItem>
                 { !isDataSensorExpand ? "" :
                 <ListItem divider style={{height:"51px"}} > 
-                    <ListItemText primary={<Typography style={styleText} component="div">Состояние</Typography>} />
-                    <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} onChange={() => {switchClick(sensorId)}} checked={sensor.condition} />}  label={<Typography style={styleText} variant="body">{sensor.condition === true ? "Вкл" : "Выкл"}</Typography>} labelPlacement="start"/>
+                    <ListItemText primary={<Typography className={classes.styleText} component="div">Состояние</Typography>} />
+                    <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} onChange={() => {switchClick(sensorId)}} checked={sensor.condition} />}  label={<Typography className={classes.styleText} variant="body">{sensor.condition === true ? "Вкл" : "Выкл"}</Typography>} labelPlacement="start"/>
                 </ListItem>
                 }
                 { !isDataSensorExpand ? "" :
                 <ListItem divider style={{height:"51px"}}  >
-                        <ListItemText style={styleText} primary={<Typography variant="body" style={ { color:"#F8BC3A" } }>{sensor.deviceNumber}</Typography>}
-                                                        secondary={<Typography variant="body"> {sensor.deviceName}</Typography>} />
+                        <ListItemText  primary={<Typography className={classes.styleText} variant="body" style={ { color:"#F8BC3A" } }>{sensor.deviceNumber}</Typography>}
+                                                        secondary={<Typography className={classes.styleText} variant="body"> {sensor.deviceName}</Typography>} />
                 </ListItem>
                 }       
                 <ListItem divider style={{padding:0}} onClick={StateSensorExpandOnClick}>
                     <ListItemButton style={{paddingTop:3,paddingBottom:"3px"}} >
-                    <ListItemText primary={<Typography style={styleTextBold} component="div">Показатели датчика</Typography>} />
+                    <ListItemText primary={<Typography className={classes.styleTextBold} component="div">Показатели датчика</Typography>} />
                         { isStateSensorExpand ? <ExpandLess style={{color:"#707070"}}/> :  <ExpandMore style={{color:"#707070"}}/>}
                     </ListItemButton>
                 </ListItem>
                 { !isStateSensorExpand ? "" :
                 <ListItem style={{flexDirection:"column"}} divider>
-                    <ListItemText style={styleItemListOfSensorValue} primary={<Typography style={styleTextBold} component="div">Текущее значение</Typography>}
-                                                                    secondary={<Typography style={styleTextBold} component="div">+{sensor.valueSensor}°C</Typography>} />
+                    <ListItemText className={classes.styleItemListOfSensorValue} primary={<Typography className={classes.styleTextBold} component="div">Текущее значение</Typography>}
+                                                                    secondary={<Typography className={classes.styleTextBold} component="div">+{sensor.valueSensor}°C</Typography>} />
                     
-                    <ListItemText style={styleItemListOfSensorValue} primary={<Typography style={styleText} component="div">Диапазон</Typography>}
-                                                                    secondary={<Typography style={styleText} component="div">от -10 до +30 °C</Typography>} />
+                    <ListItemText className={classes.styleItemListOfSensorValue} primary={<Typography className={classes.styleText} component="div">Диапазон</Typography>}
+                                                                    secondary={<Typography className={classes.styleText} component="div">от -10 до +30 °C</Typography>} />
 
-                    <ListItemText style={styleItemListOfSensorValue} primary={<Typography style={styleText} component="div">Модель</Typography>}
-                                                                    secondary={<Typography style={styleText} component="div">ESpD 417</Typography>} />                                            
+                    <ListItemText className={classes.styleItemListOfSensorValue} primary={<Typography className={classes.styleText} component="div">Модель</Typography>}
+                                                                    secondary={<Typography className={classes.styleText} component="div">ESpD 417</Typography>} />                                            
                 </ListItem>
                 }
             </List>        

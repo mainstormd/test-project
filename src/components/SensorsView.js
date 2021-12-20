@@ -8,9 +8,10 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import {useNavigate } from "react-router-dom"
-import { display } from '@mui/system';
+import { makeStyles } from '@mui/styles';
 
-let styleLabel = {
+const useStyles = makeStyles({
+  styleLabel : {
     width: "258px",
     height: "24px",
     fontFamily: "Montserrat",
@@ -18,27 +19,26 @@ let styleLabel = {
     fontSize: "20px",
     lineHeight: "120%",
     color: "#424242"
-}
-
-let styleSearchIcon = {
+  },
+  styleSearchIcon : {
     height:"17.49px",
     width:"17.49px",
     color: "#707070"
-}
-  
-let styleAddIcon = {
+  },
+  styleAddIcon : {
     height:"24px",
     width:"24px"
-}
+  },
 
-let stylesHeader = {
-    color:"#B7B7B7",
-    font:"Montserrat",
-    fontSize:"12px",
-    borderBottom:"none"
-}
-  
-let sensorsViewStyle = {
+  rowHeader : {
+    "& > .MuiTableCell-root":{
+      color:"#B7B7B7",
+      font:"Montserrat",
+      fontSize:"12px",
+      borderBottom:"none"
+    }
+  },
+  sensorsViewStyle : {
     position: "absolute",
     width:"673px",
     height: "977px",
@@ -49,23 +49,27 @@ let sensorsViewStyle = {
     top:"30px",
     display:"flex", 
     flexDirection: "column"
-}
-
-let styleCell = {
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: "12px",
-    lineHeight: "120%",
-    color: "#424242",
-    paddingTop:"11px",
-    paddingBottom:"11px",
-    borderBottom: "none"
-}
+  },
+  row :{
+    "& > .MuiTableCell-root":{
+      fontFamily: "Montserrat",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: "12px",
+      lineHeight: "120%",
+      color: "#424242",
+      paddingTop:"11px",
+      paddingBottom:"11px",
+      borderBottom: "none"
+    }
+  }
+});
 
 
 function SensorsView( {rows, addSensor,rowClick} )
 {
+  const classes = useStyles();
+
   let navigate = useNavigate();
 
   let tableRowClick = ( rowId ) => {
@@ -74,40 +78,40 @@ function SensorsView( {rows, addSensor,rowClick} )
   };
 
     return(
-    <div style={sensorsViewStyle}>
+    <div className={classes.sensorsViewStyle}>
         <List style={{padding:0}}>
-          <ListItem divider style={{justifyContent:"space-between",alignItems:"center"}}>
-            <div style={styleLabel}>Датчики температуры</div>
+          <ListItem divider style={{justifyContent:"space-between",alignItems:"center",paddingBottom:"4px",paddingTop:"4px"}}>
+            <div className={classes.styleLabel}>Датчики температуры</div>
             <IconButton type="submit" aria-label="search">
-              <SearchIcon style={styleSearchIcon} />
+              <SearchIcon className={classes.styleSearchIcon} />
             </IconButton>
           </ListItem>
           <ListItem divider style={{padding:0}}>
           <Table style={{tableLayout: "fixed"}} >
             <TableBody>
-              <TableRow key="1"  >
-                <TableCell style={stylesHeader} align="left">ID</TableCell>
-                <TableCell style={stylesHeader} align="left">Устройство</TableCell>
-                <TableCell style={stylesHeader} align="left">Состояние</TableCell>
-                <TableCell style={stylesHeader} align="left">Значение</TableCell>
+              <TableRow className={classes.rowHeader} key="1"  >
+                <TableCell align="left">ID</TableCell>
+                <TableCell align="left">Устройство</TableCell>
+                <TableCell align="left">Состояние</TableCell>
+                <TableCell align="left">Значение</TableCell>
               </TableRow>
             </TableBody>
           </Table>
           </ListItem >
           <ListItem divider>
-            <Button style={{textTransform: 'none', color:"#F8BC3A",fontWeight: 500,fontSize: "14px",lineHeight: "120%"}} onClick={addSensor} startIcon={<AddCircleIcon style={styleAddIcon}/>}>Добавить датчик</Button>
+            <Button style={{textTransform: 'none', color:"#F8BC3A",fontWeight: 500,fontSize: "14px",lineHeight: "120%"}} onClick={addSensor} startIcon={<AddCircleIcon className={classes.styleAddIcon}/>}>Добавить датчик</Button>
           </ListItem>
         </List>
         <Box style={{width:"100%", height:"100%", overflow:"auto", alignSelf:"centered" }}>
           <Table style={{tableLayout: "fixed"}}>
             <TableBody>
               {rows.map((row) => (
-                    <TableRow hover key={row.id} onClick={() => tableRowClick(row.id)} style={row.isHighlighted ? {backgroundColor:"#F8F8F8"}: {} }>
-                      <TableCell style={styleCell}  align="left">{row.id}</TableCell>
-                      <TableCell style={styleCell}  align="left"> 
+                    <TableRow className={classes.row} hover key={row.id} onClick={() => tableRowClick(row.id)} style={row.isHighlighted ? {backgroundColor:"#F8F8F8"}: {} }>
+                      <TableCell align="left">{row.id}</TableCell>
+                      <TableCell align="left"> 
                           <div style={{color:"#F8BC3A"}}>{row.deviceNumber}</div> {row.deviceName}</TableCell>
-                      <TableCell  style={styleCell}  align="left">{row.condition === true ? "Вкл" : "Выкл"}</TableCell>
-                      <TableCell style={styleCell}  align="left">+{row.valueSensor}°C</TableCell>
+                      <TableCell align="left">{row.condition === true ? "Вкл" : "Выкл"}</TableCell>
+                      <TableCell align="left">+{row.valueSensor}°C</TableCell>
                     </TableRow>
                   ))}
             </TableBody>
