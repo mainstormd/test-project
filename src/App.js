@@ -35,7 +35,7 @@ function App() {
 
   let addRowOnClick = ( event )=>{
     let result = [...rows];
-    result.push(createData(getRandomNumber()+"", getRandomNumber()+"", "SW1", "Вкл", "70",false));    
+    result.push(createData(getRandomNumber()+"", getRandomNumber()+"", "SW1", true, "70",false));    
     setRows(result);
   };
 
