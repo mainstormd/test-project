@@ -2,7 +2,7 @@ import './App.css';
 import SensorsView from './components/SensorsView'
 import SensorPage  from './components/SensorPage'
 import {  BrowserRouter as Router,  Routes,  Route, useNavigate } from "react-router-dom";
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { StylesProvider } from '@mui/styles';
 let fontList = {
   width: "1920px",
@@ -28,18 +28,15 @@ function getRandomNumber(){
 
 function App() {
   
- // let navigate = useNavigate();
-
   const [ rows , setRows ] = useState(intialzedRows);
 
-
-  let addRowOnClick = ( event )=>{
+  const addRowOnClick = ( )=>{
     let result = [...rows];
     result.push(createData(getRandomNumber()+"", getRandomNumber()+"", "SW1", true, "70",false));    
     setRows(result);
   };
 
-  let rowClick = (rowId,event) => {
+  const rowClick =  ( rowId ) => {
     
     let result = rows.map( item => {  
         if(item.id === rowId ) 
@@ -53,7 +50,7 @@ function App() {
     setRows(result);
   };
 
-  let switchClick = (sensorId) => {
+  const switchClick =  (sensorId) => {
    
     let result = rows.map( item => {  
       if(item.id === sensorId ) 
@@ -66,7 +63,7 @@ function App() {
         return  item; 
     });
     setRows(result);
-  }
+  };
 
   return (
       <Router>

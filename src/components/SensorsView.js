@@ -7,8 +7,8 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import {useNavigate } from "react-router-dom"
 import { makeStyles } from '@mui/styles';
+import SensorRow from './SensorRow'
 
 const useStyles = makeStyles({
   styleLabel : {
@@ -62,22 +62,15 @@ const useStyles = makeStyles({
       paddingBottom:"11px",
       borderBottom: "none"
     }
-  }
+}
 });
 
 
-function SensorsView( {rows, addSensor,rowClick} )
+function SensorsView({ rows, addSensor,rowClick })
 {
   const classes = useStyles();
 
-  let navigate = useNavigate();
-
-  let tableRowClick = ( rowId ) => {
-    rowClick(rowId);
-    navigate(`/sensors/${rowId}`);
-  };
-
-    return(
+  return(
     <div className={classes.sensorsViewStyle}>
         <List style={{padding:0}}>
           <ListItem divider style={{justifyContent:"space-between",alignItems:"center",paddingBottom:"4px",paddingTop:"4px"}}>
@@ -105,15 +98,12 @@ function SensorsView( {rows, addSensor,rowClick} )
         <Box style={{width:"100%", height:"100%", overflow:"auto", alignSelf:"centered" }}>
           <Table style={{tableLayout: "fixed"}}>
             <TableBody>
-              {rows.map((row) => (
-                    <TableRow className={classes.row} hover key={row.id} onClick={() => tableRowClick(row.id)} style={row.isHighlighted ? {backgroundColor:"#F8F8F8"}: {} }>
-                      <TableCell align="left">{row.id}</TableCell>
-                      <TableCell align="left"> 
-                          <div style={{color:"#F8BC3A"}}>{row.deviceNumber}</div> {row.deviceName}</TableCell>
-                      <TableCell align="left">{row.condition === true ? "Вкл" : "Выкл"}</TableCell>
-                      <TableCell align="left">+{row.valueSensor}°C</TableCell>
-                    </TableRow>
-                  ))}
+              {
+                rows.map((row) => {
+                    const props = {...row,rowClick,rows}; //memory lk
+                    return <SensorRow {...props}/>
+                })                 
+              }
             </TableBody>
           </Table>
         </Box>

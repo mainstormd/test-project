@@ -4,7 +4,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useParams } from "react-router-dom";
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -70,7 +70,7 @@ const CustomizedSwitch = styled(Switch)`
 function SensorPage({rows, switchClick})
 {
     let { sensorId } = useParams();
-    let sensor = rows.find( (item ) => item.id === sensorId);
+    const memoizedSensor = useMemo( ( ) => { return rows.find( (item ) => item.id === sensorId); },[sensorId] );
     let [isDataSensorExpand, setStatusDataSensor] = useState(true);
     let [isStateSensorExpand, setStatusStateSensor] = useState(true);     
     
@@ -95,13 +95,13 @@ function SensorPage({rows, switchClick})
                 { !isDataSensorExpand ? "" :
                 <ListItem divider style={{height:"51px"}} > 
                     <ListItemText primary={<Typography className={classes.styleText} component="div">Состояние</Typography>} />
-                    <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} onChange={() => {switchClick(sensorId)}} checked={sensor.condition} />}  label={<Typography className={classes.styleText} variant="body">{sensor.condition === true ? "Вкл" : "Выкл"}</Typography>} labelPlacement="start"/>
+                    <FormControlLabel control={<CustomizedSwitch style={{color:"#f8bc3a"}} onChange={() => {switchClick(sensorId)}} checked={memoizedSensor.condition} />}  label={<Typography className={classes.styleText} variant="body">{memoizedSensor.condition === true ? "Вкл" : "Выкл"}</Typography>} labelPlacement="start"/>
                 </ListItem>
                 }
                 { !isDataSensorExpand ? "" :
                 <ListItem divider style={{height:"51px"}}  >
-                        <ListItemText  primary={<Typography className={classes.styleText} variant="body" style={ { color:"#F8BC3A" } }>{sensor.deviceNumber}</Typography>}
-                                                        secondary={<Typography className={classes.styleText} variant="body"> {sensor.deviceName}</Typography>} />
+                        <ListItemText  primary={<Typography className={classes.styleText} variant="body" style={ { color:"#F8BC3A" } }>{memoizedSensor.deviceNumber}</Typography>}
+                                                        secondary={<Typography className={classes.styleText} variant="body"> {memoizedSensor.deviceName}</Typography>} />
                 </ListItem>
                 }       
                 <ListItem divider style={{padding:0}} onClick={StateSensorExpandOnClick}>
@@ -113,7 +113,7 @@ function SensorPage({rows, switchClick})
                 { !isStateSensorExpand ? "" :
                 <ListItem style={{flexDirection:"column"}} divider>
                     <ListItemText className={classes.styleItemListOfSensorValue} primary={<Typography className={classes.styleTextBold} component="div">Текущее значение</Typography>}
-                                                                    secondary={<Typography className={classes.styleTextBold} component="div">+{sensor.valueSensor}°C</Typography>} />
+                                                                    secondary={<Typography className={classes.styleTextBold} component="div">+{memoizedSensor.valueSensor}°C</Typography>} />
                     
                     <ListItemText className={classes.styleItemListOfSensorValue} primary={<Typography className={classes.styleText} component="div">Диапазон</Typography>}
                                                                     secondary={<Typography className={classes.styleText} component="div">от -10 до +30 °C</Typography>} />
